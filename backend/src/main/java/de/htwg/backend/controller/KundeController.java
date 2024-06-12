@@ -11,13 +11,13 @@ import de.htwg.backend.service.KundeService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/kunde")
+@RequestMapping("/api")
 public class KundeController {
 
     @Autowired
     private KundeService service;
 
-    @GetMapping
+    @GetMapping("/kunde")
     public List<Kunde> getKunden() {
         return service.getKunden();
     }
