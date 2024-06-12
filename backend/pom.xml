@@ -12,7 +12,7 @@
 	<artifactId>backend</artifactId>
 	<version>0.1</version>
 	<name>backend</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Backend server for an appartement reservation system</description>
 	<properties>
 		<java.version>19</java.version>
 	</properties>
