@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.net.httpserver.HttpExchange;
 
 import de.htwg.model.Ferienwohnung;
 import de.htwg.repository.FerienwohnungRepository;
@@ -20,24 +21,29 @@ public class FerienwohnungController {
         this.objectMapper = new ObjectMapper();
     }
 
-    public void handleGetFerienwohnungen(OutputStream out) throws IOException {
+    public void handleGetFerienwohnungen(HttpExchange exchange) throws IOException {
         List<Ferienwohnung> ferienwohnungen = ferienwohnungRepository.fetchAllFerienwohnungen();
         String responseBody = objectMapper.writeValueAsString(ferienwohnungen);
-        String response = "HTTP/1.1 200 OK\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n" + responseBody;
-        System.out.println("All Ferienwohnungen fetched");
-        out.write(response.getBytes(StandardCharsets.UTF_8));
+        sendResponse(exchange, 200, responseBody);
     }
 
-    public void handlePostFerienwohnung(OutputStream out, String requestBody) throws IOException {
+    public void handlePostFerienwohnung(HttpExchange exchange, String requestBody) throws IOException {
         Ferienwohnung ferienwohnung = parseFerienwohnungFromJson(requestBody);
         ferienwohnungRepository.insertFerienwohnung(ferienwohnung);
         String responseBody = objectMapper.writeValueAsString(ferienwohnung);
-        String response = "HTTP/1.1 201 Created\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n" + responseBody;
-        System.out.println("Ferienwohnung created");
-        out.write(response.getBytes(StandardCharsets.UTF_8));
+        sendResponse(exchange, 201, responseBody);
     }
 
     private Ferienwohnung parseFerienwohnungFromJson(String json) throws IOException {
         return objectMapper.readValue(json, Ferienwohnung.class);
+    }
+
+    private void sendResponse(HttpExchange exchange, int statusCode, String responseBody) throws IOException {
+        exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
+        exchange.sendResponseHeaders(statusCode, responseBody.getBytes(StandardCharsets.UTF_8).length);
+        try (OutputStream out = exchange.getResponseBody()) {
+            out.write(responseBody.getBytes(StandardCharsets.UTF_8));
+            out.flush();
+        }
     }
 }

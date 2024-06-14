@@ -1,6 +1,7 @@
 package de.htwg.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.net.httpserver.HttpExchange;
 import de.htwg.model.Land;
 import de.htwg.repository.LandRepository;
 
@@ -19,23 +20,29 @@ public class LandController {
         this.objectMapper = new ObjectMapper();
     }
 
-    public void handleGetLaender(OutputStream out) throws IOException {
+    public void handleGetLaender(HttpExchange exchange) throws IOException {
         List<Land> laender = landRepository.fetchAllLaender();
         String responseBody = objectMapper.writeValueAsString(laender);
-        String response = "HTTP/1.1 200 OK\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n" + responseBody;
-        out.write(response.getBytes(StandardCharsets.UTF_8));
+        sendResponse(exchange, 200, responseBody);
     }
 
-    public void handlePostLand(OutputStream out, String requestBody) throws IOException {
+    public void handlePostLand(HttpExchange exchange, String requestBody) throws IOException {
         Land land = parseLandFromJson(requestBody);
         landRepository.insertLand(land);
         String responseBody = objectMapper.writeValueAsString(land);
-        String response = "HTTP/1.1 201 Created\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n"
-                + responseBody;
-        out.write(response.getBytes(StandardCharsets.UTF_8));
+        sendResponse(exchange, 201, responseBody);
     }
 
     private Land parseLandFromJson(String json) throws IOException {
         return objectMapper.readValue(json, Land.class);
+    }
+
+    private void sendResponse(HttpExchange exchange, int statusCode, String responseBody) throws IOException {
+        exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
+        exchange.sendResponseHeaders(statusCode, responseBody.getBytes(StandardCharsets.UTF_8).length);
+        try (OutputStream out = exchange.getResponseBody()) {
+            out.write(responseBody.getBytes(StandardCharsets.UTF_8));
+            out.flush();
+        }
     }
 }
