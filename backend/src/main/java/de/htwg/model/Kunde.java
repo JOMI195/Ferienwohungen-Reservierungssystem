@@ -1,6 +1,10 @@
-package de.htwg.backend.model;
+package de.htwg.model;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Kunde {
+
     private String email;
     private String passwort;
     private String vorname;
@@ -13,9 +17,18 @@ public class Kunde {
     private String ort;
     private String landname;
 
-    public Kunde(String email, String passwort, String vorname, String nachname, String iban,
-                char newsletter, String straße, String hausnummer, String postleitzahl,
-                String ort, String landname) {
+    @JsonCreator
+    public Kunde(@JsonProperty("email") String email,
+            @JsonProperty("passwort") String passwort,
+            @JsonProperty("vorname") String vorname,
+            @JsonProperty("nachname") String nachname,
+            @JsonProperty("iban") String iban,
+            @JsonProperty("newsletter") char newsletter,
+            @JsonProperty("straße") String straße,
+            @JsonProperty("hausnummer") String hausnummer,
+            @JsonProperty("postleitzahl") String postleitzahl,
+            @JsonProperty("ort") String ort,
+            @JsonProperty("landname") String landname) {
         this.email = email;
         this.passwort = passwort;
         this.vorname = vorname;
