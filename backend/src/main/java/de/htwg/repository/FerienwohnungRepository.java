@@ -19,7 +19,7 @@ public class FerienwohnungRepository {
 
     public List<Ferienwohnung> fetchAllFerienwohnungen() {
         List<Ferienwohnung> ferienwohnungen = new ArrayList<>();
-        String query = "SELECT * FROM ferienwohnung";
+        String query = "SELECT * FROM ferienwohnung ORDER BY ferienwohnungs_id ASC";
         try {
             dbHandler.checkConnection();
             try (PreparedStatement stmt = dbHandler.getConnection().prepareStatement(query);

@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class Buchung {
     private Long buchnungsnummer;
-    private Long ferienwohnungsId;
+    private Long ferienwohnungs_id;
     private String email;
     private LocalDate buchungsdatum;
     private LocalDate startdatum;
@@ -19,20 +19,20 @@ public class Buchung {
 
     @JsonCreator
     public Buchung(
-        @JsonProperty("buchnungsnummer") Long buchnungsnummer,
-        @JsonProperty("ferienwohnungsId") Long ferienwohnungsId,
-        @JsonProperty("email") String email,
-        @JsonProperty("buchungsdatum") LocalDate buchungsdatum,
-        @JsonProperty("startdatum") LocalDate startdatum,
-        @JsonProperty("enddatum") LocalDate enddatum,
-        @JsonProperty("sterne") Integer sterne,
-        @JsonProperty("bewertungsdatum") LocalDate bewertungsdatum,
-        @JsonProperty("rechnungsnummer") Integer rechnungsnummer,
-        @JsonProperty("rechnungsbetrag") Double rechnungsbetrag,
-        @JsonProperty("rechnungsdatum") LocalDate rechnungsdatum) {
-        
+            @JsonProperty("buchnungsnummer") Long buchnungsnummer,
+            @JsonProperty("ferienwohnungs_id") Long ferienwohnungs_id,
+            @JsonProperty("email") String email,
+            @JsonProperty("buchungsdatum") LocalDate buchungsdatum,
+            @JsonProperty("startdatum") LocalDate startdatum,
+            @JsonProperty("enddatum") LocalDate enddatum,
+            @JsonProperty("sterne") Integer sterne,
+            @JsonProperty("bewertungsdatum") LocalDate bewertungsdatum,
+            @JsonProperty("rechnungsnummer") Integer rechnungsnummer,
+            @JsonProperty("rechnungsbetrag") Double rechnungsbetrag,
+            @JsonProperty("rechnungsdatum") LocalDate rechnungsdatum) {
+
         this.buchnungsnummer = buchnungsnummer;
-        this.ferienwohnungsId = ferienwohnungsId;
+        this.ferienwohnungs_id = ferienwohnungs_id;
         this.email = email;
         this.buchungsdatum = buchungsdatum;
         this.startdatum = startdatum;
@@ -44,13 +44,12 @@ public class Buchung {
         this.rechnungsdatum = rechnungsdatum;
     }
 
-
     public Long getBuchnungsnummer() {
         return buchnungsnummer;
     }
 
-    public Long getFerienwohnungsId() {
-        return ferienwohnungsId;
+    public Long getFerienwohnungs_Id() {
+        return ferienwohnungs_id;
     }
 
     public String getEmail() {
@@ -93,8 +92,8 @@ public class Buchung {
         this.buchnungsnummer = buchnungsnummer;
     }
 
-    public void setFerienwohnungsId(Long ferienwohnungsId) {
-        this.ferienwohnungsId = ferienwohnungsId;
+    public void setFerienwohnungs_Id(Long ferienwohnungs_id) {
+        this.ferienwohnungs_id = ferienwohnungs_id;
     }
 
     public void setEmail(String email) {

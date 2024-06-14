@@ -27,7 +27,7 @@ public class Ferienwohnung {
             @JsonProperty("postleitzahl") String postleitzahl,
             @JsonProperty("ort") String ort,
             @JsonProperty("landname") String landname) {
-                
+
         this.ferienwohnungs_id = ferienwohnungs_id;
         this.ferienwohnungsname = ferienwohnungsname;
         this.mietpreis = mietpreis;
@@ -40,11 +40,11 @@ public class Ferienwohnung {
         this.landname = landname;
     }
 
-    public Long getFerienwohnungsId() {
+    public Long getFerienwohnungs_Id() {
         return ferienwohnungs_id;
     }
 
-    public void setFerienwohnungsId(Long ferienwohnungs_id) {
+    public void setFerienwohnungs_Id(Long ferienwohnungs_id) {
         this.ferienwohnungs_id = ferienwohnungs_id;
     }
 

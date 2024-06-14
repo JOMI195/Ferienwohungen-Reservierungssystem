@@ -4,24 +4,24 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Besitzt {
-    private Long ferienwohnungsId;
+    private Long ferienwohnungs_id;
     private String ausstattungsname;
 
     @JsonCreator
     public Besitzt(
-        @JsonProperty("ferienwohnungsId") Long ferienwohnungsId,
-        @JsonProperty("ausstattungsname") String ausstattungsname) {
+            @JsonProperty("ferienwohnungs_id") Long ferienwohnungs_id,
+            @JsonProperty("ausstattungsname") String ausstattungsname) {
 
-        this.ferienwohnungsId = ferienwohnungsId;
+        this.ferienwohnungs_id = ferienwohnungs_id;
         this.ausstattungsname = ausstattungsname;
     }
 
-    public Long getFerienwohnungsId() {
-        return ferienwohnungsId;
+    public Long getFerienwohnungs_Id() {
+        return ferienwohnungs_id;
     }
 
-    public void setFerienwohnungsId(Long ferienwohnungsId) {
-        this.ferienwohnungsId = ferienwohnungsId;
+    public void setFerienwohnungs_Id(Long ferienwohnungs_id) {
+        this.ferienwohnungs_id = ferienwohnungs_id;
     }
 
     public String getAusstattungsname() {

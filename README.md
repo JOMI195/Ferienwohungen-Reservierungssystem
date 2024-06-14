@@ -1,2 +1,1 @@
-javac -cp lib/ojdbc8.jar src/main/java/model/Kunde.java src/main/java/database/DatabaseHandler.java src/main/java/server/HttpServer.java src/main/java/Main.java -d out
-java -cp ".\lib\ojdbc8.jar;.\out" Main     
+docker compose up --build
