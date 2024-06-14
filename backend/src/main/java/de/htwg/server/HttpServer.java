@@ -7,18 +7,23 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
+import de.htwg.controller.FerienwohnungController;
 import de.htwg.controller.KundeController;
 
 public class HttpServer {
     private int port;
-    private KundeController kundeController;
     private static String BASEURL = "/api";
+    private KundeController kundeController;
+    private FerienwohnungController ferienwohnungController;
+    
 
     public HttpServer(int port) {
         this.port = port;
         this.kundeController = new KundeController();
+        this.ferienwohnungController = new FerienwohnungController();
     }
 
     public void start() throws IOException {
@@ -53,18 +58,42 @@ public class HttpServer {
                             requestBody = new String(bodyChars);
                             System.out.println("Request Body: " + requestBody);
                         }
+                        else {
+                            String errorResponse = CustomResponseBuilder.buildErrorResponse(
+                                400, 
+                                "BAD_REQUEST", 
+                                "No Request Body for POST provided",
+                                requestLine
+                            );
+                            String response = "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\n" + errorResponse;
+                            out.write(response.getBytes(StandardCharsets.UTF_8));
+                            continue;
+                        }
                     }
 
-                    if (requestLine.startsWith("GET " + BASEURL + "/kunde")) {
+                    /* ---------------------KUNDE--------------------- */
+                    String kundeUrl = "/kunde";
+                    String ferienwohnungUrl = "/ferienwohnung";
+
+                    if (requestLine.startsWith("GET " + BASEURL + kundeUrl)) {
                         kundeController.handleGetKunden(out);
-                    } else if (requestLine.startsWith("POST " + BASEURL + "/kunde")) {
-                        if (requestBody != null) {
+                    } else if (requestLine.startsWith("POST " + BASEURL + kundeUrl)) {
                             kundeController.handlePostKunde(out, requestBody);
-                        } else {
-                            out.write("HTTP/1.1 400 Bad Request\r\n\r\n".getBytes("UTF-8"));
-                        }
+                    /* ---------------------FERIENWOHUNUNG--------------------- */
+                    } else if (requestLine.startsWith("GET " + BASEURL + ferienwohnungUrl)) {
+                        ferienwohnungController.handleGetFerienwohnungen(out);
+                    } else if (requestLine.startsWith("POST " + BASEURL + ferienwohnungUrl)) {
+                        ferienwohnungController.handlePostFerienwohnung(out, requestBody);
                     } else {
-                        out.write("HTTP/1.1 404 Not Found\r\n\r\n".getBytes("UTF-8"));
+                        String errorResponse = CustomResponseBuilder.buildErrorResponse(
+                            404, 
+                            "ROUTE_NOT_FOUND", 
+                            "The requested route was not found.",
+                            requestLine
+                        );
+                        String response = "HTTP/1.1 404 Not Found\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\n" + errorResponse;
+                        out.write(response.getBytes(StandardCharsets.UTF_8));
+                        continue;
                     }
                 }
             }

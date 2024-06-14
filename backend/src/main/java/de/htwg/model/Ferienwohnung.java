@@ -3,14 +3,12 @@ package de.htwg.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Kunde {
-
-    private String email;
-    private String passwort;
-    private String vorname;
-    private String nachname;
-    private String iban;
-    private char newsletter;
+public class Ferienwohnung {
+    private Long ferienwohnungs_id;
+    private String ferienwohnungsname;
+    private double mietpreis;
+    private int zimmer;
+    private int größe;
     private String straße;
     private String hausnummer;
     private String postleitzahl;
@@ -18,25 +16,23 @@ public class Kunde {
     private String landname;
 
     @JsonCreator
-    public Kunde(
-            @JsonProperty("email") String email,
-            @JsonProperty("passwort") String passwort,
-            @JsonProperty("vorname") String vorname,
-            @JsonProperty("nachname") String nachname,
-            @JsonProperty("iban") String iban,
-            @JsonProperty("newsletter") char newsletter,
+    public Ferienwohnung(
+            @JsonProperty("ferienwohnungs_id") Long ferienwohnungs_id,
+            @JsonProperty("ferienwohnungsname") String ferienwohnungsname,
+            @JsonProperty("mietpreis") double mietpreis,
+            @JsonProperty("zimmer") int zimmer,
+            @JsonProperty("größe") int größe,
             @JsonProperty("straße") String straße,
             @JsonProperty("hausnummer") String hausnummer,
             @JsonProperty("postleitzahl") String postleitzahl,
             @JsonProperty("ort") String ort,
             @JsonProperty("landname") String landname) {
                 
-        this.email = email;
-        this.passwort = passwort;
-        this.vorname = vorname;
-        this.nachname = nachname;
-        this.iban = iban;
-        this.newsletter = newsletter;
+        this.ferienwohnungs_id = ferienwohnungs_id;
+        this.ferienwohnungsname = ferienwohnungsname;
+        this.mietpreis = mietpreis;
+        this.zimmer = zimmer;
+        this.größe = größe;
         this.straße = straße;
         this.hausnummer = hausnummer;
         this.postleitzahl = postleitzahl;
@@ -44,52 +40,44 @@ public class Kunde {
         this.landname = landname;
     }
 
-    public String getEmail() {
-        return email;
+    public Long getFerienwohnungsId() {
+        return ferienwohnungs_id;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setFerienwohnungsId(Long ferienwohnungs_id) {
+        this.ferienwohnungs_id = ferienwohnungs_id;
     }
 
-    public String getPasswort() {
-        return passwort;
+    public String getFerienwohnungsname() {
+        return ferienwohnungsname;
     }
 
-    public void setPasswort(String passwort) {
-        this.passwort = passwort;
+    public void setFerienwohnungsname(String ferienwohnungsname) {
+        this.ferienwohnungsname = ferienwohnungsname;
     }
 
-    public String getVorname() {
-        return vorname;
+    public double getMietpreis() {
+        return mietpreis;
     }
 
-    public void setVorname(String vorname) {
-        this.vorname = vorname;
+    public void setMietpreis(double mietpreis) {
+        this.mietpreis = mietpreis;
     }
 
-    public String getNachname() {
-        return nachname;
+    public int getZimmer() {
+        return zimmer;
     }
 
-    public void setNachname(String nachname) {
-        this.nachname = nachname;
+    public void setZimmer(int zimmer) {
+        this.zimmer = zimmer;
     }
 
-    public String getIban() {
-        return iban;
+    public int getGröße() {
+        return größe;
     }
 
-    public void setIban(String iban) {
-        this.iban = iban;
-    }
-
-    public char getNewsletter() {
-        return newsletter;
-    }
-
-    public void setNewsletter(char newsletter) {
-        this.newsletter = newsletter;
+    public void setGröße(int größe) {
+        this.größe = größe;
     }
 
     public String getStraße() {

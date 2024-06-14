@@ -32,7 +32,7 @@ public class KundeController {
         Kunde kunde = parseKundeFromJson(requestBody);
         kundeRepository.insertKunde(kunde);
         String responseBody = objectMapper.writeValueAsString(kunde);
-        String response = "HTTP/1.1 201 Created\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\n" + responseBody;
+        String response = "HTTP/1.1 201 Created\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n" + responseBody;
         System.out.println("Kunde created");
         out.write(response.getBytes(StandardCharsets.UTF_8));
     }
