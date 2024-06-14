@@ -1,11 +1,6 @@
 package de.htwg.backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
-@Entity
 public class Kunde {
-    @Id
     private String email;
     private String passwort;
     private String vorname;
@@ -18,11 +13,9 @@ public class Kunde {
     private String ort;
     private String landname;
 
-    public Kunde() {
-    }
-
-    public Kunde(String email, String passwort, String vorname, String nachname, String iban, char newsletter,
-            String straße, String hausnummer, String postleitzahl, String ort, String landname) {
+    public Kunde(String email, String passwort, String vorname, String nachname, String iban,
+                char newsletter, String straße, String hausnummer, String postleitzahl,
+                String ort, String landname) {
         this.email = email;
         this.passwort = passwort;
         this.vorname = vorname;
