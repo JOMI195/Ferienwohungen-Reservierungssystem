@@ -1,0 +1,17 @@
+# Use an official Maven runtime as a parent image
+FROM maven:3.8.6-openjdk-18-slim AS build
+WORKDIR /app
+
+COPY pom.xml ./
+COPY src ./src
+RUN mvn clean package shade:shade
+
+FROM openjdk:20
+WORKDIR /app
+COPY --from=build /app/target/*.jar ./app.jar
+COPY ./.env ./.env
+
+ENV DOTENV_PATH=/.env
+EXPOSE 8080
+
+CMD ["java", "-jar", "app.jar"]
