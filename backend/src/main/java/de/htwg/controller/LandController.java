@@ -1,48 +1,33 @@
 package de.htwg.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.net.httpserver.HttpExchange;
 import de.htwg.model.Land;
 import de.htwg.repository.LandRepository;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
+@Path("/land")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class LandController {
 
-    private final LandRepository landRepository;
-    private final ObjectMapper objectMapper;
+    private LandRepository landRepository;
 
     public LandController() {
         this.landRepository = new LandRepository();
-        this.objectMapper = new ObjectMapper();
     }
 
-    public void handleGetLaender(HttpExchange exchange) throws IOException {
+    @GET
+    public Response getLaender() {
         List<Land> laender = landRepository.fetchAllLaender();
-        String responseBody = objectMapper.writeValueAsString(laender);
-        sendResponse(exchange, 200, responseBody);
+        return Response.ok(laender).build();
     }
 
-    public void handlePostLand(HttpExchange exchange, String requestBody) throws IOException {
-        Land land = parseLandFromJson(requestBody);
+    @POST
+    public Response postLand(Land land) {
         landRepository.insertLand(land);
-        String responseBody = objectMapper.writeValueAsString(land);
-        sendResponse(exchange, 201, responseBody);
-    }
-
-    private Land parseLandFromJson(String json) throws IOException {
-        return objectMapper.readValue(json, Land.class);
-    }
-
-    private void sendResponse(HttpExchange exchange, int statusCode, String responseBody) throws IOException {
-        exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
-        exchange.sendResponseHeaders(statusCode, responseBody.getBytes(StandardCharsets.UTF_8).length);
-        try (OutputStream out = exchange.getResponseBody()) {
-            out.write(responseBody.getBytes(StandardCharsets.UTF_8));
-            out.flush();
-        }
+        return Response.status(Response.Status.CREATED).entity(land).build();
     }
 }

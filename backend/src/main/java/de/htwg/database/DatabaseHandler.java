@@ -5,12 +5,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
+import de.htwg.env.DotenvSingleton;
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class DatabaseHandler {
-    private static final Dotenv dotenv = Dotenv.configure()
-            .directory("./")
-            .load();
+    private static Dotenv dotenv = DotenvSingleton.getInstance();
     private static final String DB_URL = dotenv.get("DB_URL");
     private static final String DB_USER = dotenv.get("DB_USERNAME");
     private static final String DB_PASSWORD = dotenv.get("DB_PASSWORD");

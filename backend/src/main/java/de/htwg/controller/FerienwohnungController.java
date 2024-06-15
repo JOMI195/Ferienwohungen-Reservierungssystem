@@ -1,49 +1,33 @@
 package de.htwg.controller;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.net.httpserver.HttpExchange;
-
 import de.htwg.model.Ferienwohnung;
 import de.htwg.repository.FerienwohnungRepository;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.List;
+
+@Path("/ferienwohnung")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class FerienwohnungController {
 
     private FerienwohnungRepository ferienwohnungRepository;
-    private ObjectMapper objectMapper;
 
     public FerienwohnungController() {
         this.ferienwohnungRepository = new FerienwohnungRepository();
-        this.objectMapper = new ObjectMapper();
     }
 
-    public void handleGetFerienwohnungen(HttpExchange exchange) throws IOException {
+    @GET
+    public Response getFerienwohnungen() {
         List<Ferienwohnung> ferienwohnungen = ferienwohnungRepository.fetchAllFerienwohnungen();
-        String responseBody = objectMapper.writeValueAsString(ferienwohnungen);
-        sendResponse(exchange, 200, responseBody);
+        return Response.ok(ferienwohnungen).build();
     }
 
-    public void handlePostFerienwohnung(HttpExchange exchange, String requestBody) throws IOException {
-        Ferienwohnung ferienwohnung = parseFerienwohnungFromJson(requestBody);
+    @POST
+    public Response postFerienwohnung(Ferienwohnung ferienwohnung) {
         ferienwohnungRepository.insertFerienwohnung(ferienwohnung);
-        String responseBody = objectMapper.writeValueAsString(ferienwohnung);
-        sendResponse(exchange, 201, responseBody);
-    }
-
-    private Ferienwohnung parseFerienwohnungFromJson(String json) throws IOException {
-        return objectMapper.readValue(json, Ferienwohnung.class);
-    }
-
-    private void sendResponse(HttpExchange exchange, int statusCode, String responseBody) throws IOException {
-        exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
-        exchange.sendResponseHeaders(statusCode, responseBody.getBytes(StandardCharsets.UTF_8).length);
-        try (OutputStream out = exchange.getResponseBody()) {
-            out.write(responseBody.getBytes(StandardCharsets.UTF_8));
-            out.flush();
-        }
+        return Response.status(Response.Status.CREATED).entity(ferienwohnung).build();
     }
 }

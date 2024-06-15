@@ -1,49 +1,33 @@
 package de.htwg.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.net.httpserver.HttpExchange;
-
 import de.htwg.model.Ausstattung;
 import de.htwg.repository.AusstattungRepository;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
+@Path("/ausstattung")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class AusstattungController {
 
-    private final AusstattungRepository ausstattungRepository;
-    private final ObjectMapper objectMapper;
+    private AusstattungRepository ausstattungRepository;
 
     public AusstattungController() {
         this.ausstattungRepository = new AusstattungRepository();
-        this.objectMapper = new ObjectMapper();
     }
 
-    public void handleGetAusstattungen(HttpExchange exchange) throws IOException {
+    @GET
+    public Response getAusstattungen() {
         List<Ausstattung> ausstattungen = ausstattungRepository.fetchAllAusstattungen();
-        String responseBody = objectMapper.writeValueAsString(ausstattungen);
-        sendResponse(exchange, 200, responseBody);
+        return Response.ok(ausstattungen).build();
     }
 
-    public void handlePostAusstattung(HttpExchange exchange, String requestBody) throws IOException {
-        Ausstattung ausstattung = parseAusstattungFromJson(requestBody);
+    @POST
+    public Response postAusstattung(Ausstattung ausstattung) {
         ausstattungRepository.insertAusstattung(ausstattung);
-        String responseBody = objectMapper.writeValueAsString(ausstattung);
-        sendResponse(exchange, 201, responseBody);
-    }
-
-    private Ausstattung parseAusstattungFromJson(String json) throws IOException {
-        return objectMapper.readValue(json, Ausstattung.class);
-    }
-
-    private void sendResponse(HttpExchange exchange, int statusCode, String responseBody) throws IOException {
-        exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
-        exchange.sendResponseHeaders(statusCode, responseBody.getBytes(StandardCharsets.UTF_8).length);
-        try (OutputStream out = exchange.getResponseBody()) {
-            out.write(responseBody.getBytes(StandardCharsets.UTF_8));
-            out.flush();
-        }
+        return Response.status(Response.Status.CREATED).entity(ausstattung).build();
     }
 }
