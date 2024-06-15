@@ -9,8 +9,8 @@ public class Main {
     @SuppressWarnings("unused")
     public static void main(String[] args) {
         try {
+            final DatabaseHandler databaseHandler = DatabaseHandler.getInstance();
             final HttpServer server = Server.startServer();
-            DatabaseHandler databaseHandler = DatabaseHandler.getInstance();
             System.in.read();
             server.shutdown();
         } catch (Exception e) {
