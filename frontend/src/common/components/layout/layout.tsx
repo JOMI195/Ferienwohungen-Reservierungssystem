@@ -1,12 +1,33 @@
-import { Box } from "@mui/material";
+import { Box, Container, useTheme } from "@mui/material";
 import { Outlet } from "react-router-dom";
+import TopAppbar from "./topLayout/topAppbar";
+import Footer from "./bottomLayout/footer";
 
 const MainLayout: React.FC = () => {
+    const theme = useTheme();
     return (
-        <Box sx={{ display: "flex", height: "100vh", overflow: "hidden" }}>
-            <Box sx={{ flexGrow: 1, overflow: "auto" }}>
-                <Outlet />
+        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <TopAppbar />
+            <Box
+                sx={{
+                    flex: '1 1 auto',
+                    display: 'flex',
+                    flexDirection: 'column',
+                }}
+            >
+                <Container
+                    disableGutters
+                    maxWidth="xl"
+                    sx={{
+                        flex: '1 1 auto',
+                        display: 'flex',
+                        flexDirection: 'column',
+                    }}
+                >
+                    <Outlet />
+                </Container>
             </Box>
+            <Footer />
         </Box>
     );
 };

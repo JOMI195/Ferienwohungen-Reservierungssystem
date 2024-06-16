@@ -1,4 +1,4 @@
-package de.htwg.server;
+package de.htwg.provider;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;

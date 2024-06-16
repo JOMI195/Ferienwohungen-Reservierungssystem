@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { Ferienwohnung, Kunde } from '../types';
+import { Ausstattung, Bild, Ferienwohnung, Kunde, Land } from '../types';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -36,11 +36,28 @@ axiosInstance.interceptors.response.use(
     }
 );
 
+export const fetchFerienwohnungen = async (): Promise<Ferienwohnung[]> => {
+    try {
+        const response = await axiosInstance.get<Ferienwohnung[]>('/ferienwohnung');
+        return response.data;
+    } catch (error) {
+        throw new Error(`Failed to fetch Ferienwohnungen: ${error}`);
+    }
+};
 export const addFerienwohnung = async (newFerienwohnung: Ferienwohnung): Promise<void> => {
     try {
         await axiosInstance.post('/ferienwohnung', newFerienwohnung);
     } catch (error) {
         throw new Error(`Failed to add Ferienwohnung: ${error}`);
+    }
+};
+
+export const fetchKunden = async (): Promise<Kunde[]> => {
+    try {
+        const response = await axiosInstance.get<Kunde[]>('/kunde');
+        return response.data;
+    } catch (error) {
+        throw new Error(`Failed to fetch Kunden: ${error}`);
     }
 };
 
@@ -52,21 +69,54 @@ export const addKunde = async (newKunde: Kunde): Promise<void> => {
     }
 };
 
-export const fetchFerienwohnungen = async (): Promise<Ferienwohnung[]> => {
+export const fetchBilder = async (): Promise<Bild[]> => {
     try {
-        const response = await axiosInstance.get<Ferienwohnung[]>('/ferienwohnung');
+        const response = await axiosInstance.get<Bild[]>('/bild');
         return response.data;
     } catch (error) {
-        throw new Error(`Failed to fetch Ferienwohnungen: ${error}`);
+        throw new Error(`Failed to fetch Bilder: ${error}`);
     }
 };
 
-export const fetchKunden = async (): Promise<Kunde[]> => {
+export const addBild = async (newBild: Bild): Promise<void> => {
     try {
-        const response = await axiosInstance.get<Kunde[]>('/kunde');
+        await axiosInstance.post('/bild', newBild);
+    } catch (error) {
+        throw new Error(`Failed to add Bild: ${error}`);
+    }
+};
+
+export const fetchAusstattungen = async (): Promise<Ausstattung[]> => {
+    try {
+        const response = await axiosInstance.get<Ausstattung[]>('/ausstattung');
         return response.data;
     } catch (error) {
-        throw new Error(`Failed to fetch Kunden: ${error}`);
+        throw new Error(`Failed to fetch Ausstattung: ${error}`);
+    }
+};
+
+export const addAusstattung = async (newAusstattung: Ausstattung): Promise<void> => {
+    try {
+        await axiosInstance.post('/ausstattung', newAusstattung);
+    } catch (error) {
+        throw new Error(`Failed to add Ausstattung: ${error}`);
+    }
+};
+
+export const fetchLaender = async (): Promise<Land[]> => {
+    try {
+        const response = await axiosInstance.get<Land[]>('/land');
+        return response.data;
+    } catch (error) {
+        throw new Error(`Failed to fetch newLand: ${error}`);
+    }
+};
+
+export const addLand = async (newLand: Land): Promise<void> => {
+    try {
+        await axiosInstance.post('/land', newLand);
+    } catch (error) {
+        throw new Error(`Failed to add newLand: ${error}`);
     }
 };
 

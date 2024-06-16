@@ -1,5 +1,5 @@
 export interface Ferienwohnung {
-    ferienwohnungs_id: number;
+    ferienwohnungs_Id: number;
     ferienwohnungsname: string;
     mietpreis: number;
     zimmer: number;
@@ -8,6 +8,19 @@ export interface Ferienwohnung {
     hausnummer: string;
     postleitzahl: string;
     ort: string;
+    landname: string;
+}
+
+export interface Bild {
+    linkURL: string;
+    ferienwohnungs_Id: number;
+}
+
+export interface Ausstattung {
+    ausstattungsname: string;
+}
+
+export interface Land {
     landname: string;
 }
 
