@@ -9,6 +9,7 @@ export interface Ferienwohnung {
     postleitzahl: string;
     ort: string;
     landname: string;
+    avgSterne: number | null;
 }
 
 export interface Bild {

@@ -33,7 +33,7 @@ export const commonThemeOptions = {
   },
   layout: {
     appbar: {
-      height: 80,
+      height: 70,
     },
     footer: {
       height: 50

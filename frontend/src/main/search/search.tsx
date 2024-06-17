@@ -132,11 +132,11 @@ const Search = () => {
                     </Box>
                     <Button sx={{ minHeight: "40px" }} color='secondary' variant='contained'>{"Alle anzeigen (Filter zurücksetzen)"}</Button>
                 </Box>
-                <Grid container alignItems="center" justifyContent="center" spacing={3}>
+                <Grid container alignItems="stretch" justifyContent="center" spacing={3}>
                     {ferienwohnungen.map((ferienwohnung) => {
                         const bild = bilder.find((bild) => bild.ferienwohnungs_Id === ferienwohnung.ferienwohnungs_Id) || null;
                         return (
-                            <Grid item xs={12} sm={6} md={4} lg={3} key={ferienwohnung.ferienwohnungs_Id}>
+                            <Grid item xs={12} sm={6} md={4} lg={3} key={ferienwohnung.ferienwohnungs_Id} style={{ display: 'flex' }}>
                                 <AppartmentCard ferienwohnung={ferienwohnung} bild={bild} />
                             </Grid>
                         );

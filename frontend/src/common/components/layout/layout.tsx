@@ -1,6 +1,6 @@
 import { Box, Container, useTheme } from "@mui/material";
 import { Outlet } from "react-router-dom";
-import TopAppbar from "./topLayout/topAppbar";
+import TopAppbar from "./topLayout/topAppBar";
 import Footer from "./bottomLayout/footer";
 
 const MainLayout: React.FC = () => {

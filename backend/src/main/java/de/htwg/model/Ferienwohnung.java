@@ -14,6 +14,7 @@ public class Ferienwohnung {
     private String postleitzahl;
     private String ort;
     private String landname;
+    private Double avgSterne;
 
     @JsonCreator
     public Ferienwohnung(
@@ -26,7 +27,8 @@ public class Ferienwohnung {
             @JsonProperty("hausnummer") String hausnummer,
             @JsonProperty("postleitzahl") String postleitzahl,
             @JsonProperty("ort") String ort,
-            @JsonProperty("landname") String landname) {
+            @JsonProperty("landname") String landname,
+            @JsonProperty("avgSterne") Double avgSterne) {
 
         this.ferienwohnungs_id = ferienwohnungs_id;
         this.ferienwohnungsname = ferienwohnungsname;
@@ -38,6 +40,7 @@ public class Ferienwohnung {
         this.postleitzahl = postleitzahl;
         this.ort = ort;
         this.landname = landname;
+        this.avgSterne = avgSterne;
     }
 
     public Long getFerienwohnungs_Id() {
@@ -118,5 +121,13 @@ public class Ferienwohnung {
 
     public void setLandname(String landname) {
         this.landname = landname;
+    }
+
+    public Double getAvgSterne() {
+        return avgSterne;
+    }
+
+    public void setAvgSterne(Double avgSterne) {
+        this.avgSterne = avgSterne;
     }
 }
