@@ -11,8 +11,6 @@ public class Main {
         try {
             final DatabaseHandler databaseHandler = DatabaseHandler.getInstance();
             final HttpServer server = Server.startServer();
-            System.in.read();
-            server.shutdown();
         } catch (Exception e) {
             e.printStackTrace();
         }

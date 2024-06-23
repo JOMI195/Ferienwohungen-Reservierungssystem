@@ -1,5 +1,6 @@
 package de.htwg.server;
 
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import javax.ws.rs.ApplicationPath;
 
@@ -14,5 +15,7 @@ public class JerseyConfig extends ResourceConfig {
         register(CorsFilter.class);
         register(ObjectMapperProvider.class);
         register(ResponseLoggingFilter.class);
+
+        register(JacksonFeature.class);
     }
 }

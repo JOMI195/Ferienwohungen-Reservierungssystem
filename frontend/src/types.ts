@@ -1,5 +1,5 @@
 export interface Ferienwohnung {
-    ferienwohnungs_Id: number;
+    ferienwohnungs_id: number;
     ferienwohnungsname: string;
     mietpreis: number;
     zimmer: number;
@@ -12,9 +12,13 @@ export interface Ferienwohnung {
     avgSterne: number | null;
 }
 
+export interface FerienwohnungFiltered {
+    ferienwohnungs_id: number;
+}
+
 export interface Bild {
     linkURL: string;
-    ferienwohnungs_Id: number;
+    ferienwohnungs_id: number;
 }
 
 export interface Ausstattung {

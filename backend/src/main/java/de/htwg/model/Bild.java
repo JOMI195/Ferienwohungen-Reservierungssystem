@@ -25,11 +25,11 @@ public class Bild {
         this.linkURL = linkURL;
     }
 
-    public Long getFerienwohnungs_Id() {
+    public Long getFerienwohnungs_id() {
         return ferienwohnungs_id;
     }
 
-    public void setFerienwohnungs_Id(Long ferienwohnungs_id) {
+    public void setFerienwohnungs_id(Long ferienwohnungs_id) {
         this.ferienwohnungs_id = ferienwohnungs_id;
     }
 }

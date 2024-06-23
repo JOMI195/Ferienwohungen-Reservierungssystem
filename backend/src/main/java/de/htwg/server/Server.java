@@ -15,7 +15,7 @@ public class Server {
     public static HttpServer startServer() {
         final ResourceConfig rc = new JerseyConfig();
         HttpServer server = GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
-        System.out.println(String.format("Server started at %s\nHit enter to stop it...", BASE_URI));
+        System.out.println(String.format("Server started at %s", BASE_URI));
         return server;
     }
 }

@@ -60,6 +60,6 @@ public class BildRepository {
 
     private void setBildParameters(PreparedStatement stmt, Bild bild) throws SQLException {
         stmt.setString(1, bild.getLinkURL());
-        stmt.setLong(2, bild.getFerienwohnungs_Id());
+        stmt.setLong(2, bild.getFerienwohnungs_id());
     }
 }

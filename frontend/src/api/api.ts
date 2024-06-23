@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { Ausstattung, Bild, Ferienwohnung, Kunde, Land } from '../types';
+import { Ausstattung, Bild, Ferienwohnung, FerienwohnungFiltered, Kunde, Land } from '../types';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -44,6 +44,26 @@ export const fetchFerienwohnungen = async (): Promise<Ferienwohnung[]> => {
         throw new Error(`Failed to fetch Ferienwohnungen: ${error}`);
     }
 };
+
+export const fetchFilteredFerienwohnungen = async (
+    landname?: string,
+    ausstattung?: string,
+    startdatum?: string,
+    enddatum?: string): Promise<FerienwohnungFiltered[]> => {
+    try {
+        const params = new URLSearchParams();
+        if (landname) params.append('landname', landname);
+        if (ausstattung) params.append('ausstattung', ausstattung);
+        if (startdatum) params.append('startdatum', startdatum);
+        if (enddatum) params.append('enddatum', enddatum);
+
+        const response = await axiosInstance.get<FerienwohnungFiltered[]>(`/ferienwohnung/filter?${params.toString()}`);
+        return response.data;
+    } catch (error) {
+        throw new Error(`Failed to fetch Ferienwohnungen: ${error}`);
+    }
+};
+
 export const addFerienwohnung = async (newFerienwohnung: Ferienwohnung): Promise<void> => {
     try {
         await axiosInstance.post('/ferienwohnung', newFerienwohnung);

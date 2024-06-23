@@ -59,7 +59,7 @@ public class FerienwohnungRepository {
                     FROM Ferienwohnung f
                     LEFT JOIN dbsys36.besitzt bs ON f.Ferienwohnungs_ID = bs.Ferienwohnungs_ID
                     LEFT JOIN dbsys36.Buchung b ON f.Ferienwohnungs_ID = b.Ferienwohnungs_ID
-                    WHERE f.ferienwohnungs_id IN (SELECT ferienwohnungs_id FROM buchung)
+                    WHERE f.ferienwohnungs_id IN (SELECT ferienwohnungs_id FROM Ferienwohnung)
                 """);
 
         if (startdatum != null && !startdatum.isEmpty() && enddatum != null && !enddatum.isEmpty()) {
@@ -84,7 +84,7 @@ public class FerienwohnungRepository {
             query.append(" AND f.Landname = ?");
         }
 
-        query.append(" GROUP BY f.Ferienwohnungs_ID");
+        query.append(" GROUP BY f.Ferienwohnungs_ID ORDER BY f.Ferienwohnungs_ID ASC");
 
         try {
             dbHandler.checkConnection();
@@ -111,7 +111,7 @@ public class FerienwohnungRepository {
                 try (ResultSet rs = stmt.executeQuery()) {
                     while (rs.next()) {
                         Map<String, Long> map = new HashMap<>();
-                        map.put("Ferienwohnungs_ID", rs.getLong("Ferienwohnungs_ID"));
+                        map.put("ferienwohnungs_id", rs.getLong("ferienwohnungs_id"));
                         ferienwohnungIds.add(map);
                     }
                 }
