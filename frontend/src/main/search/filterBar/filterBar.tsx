@@ -1,6 +1,6 @@
+import { useBookingContext } from '@/context/booking/bookingContext';
 import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
-import dayjs from 'dayjs';
 import React, { useState } from 'react';
 
 interface FilterBarProps {
@@ -18,8 +18,14 @@ const FilterBar: React.FC<FilterBarProps> = ({
 }) => {
     const [landname, setLandname] = useState('');
     const [ausstattung, setAusstattung] = useState('');
-    const [startdatum, setStartdatum] = useState<dayjs.Dayjs | null>(null);
-    const [enddatum, setEnddatum] = useState<dayjs.Dayjs | null>(null);
+
+    const {
+        startdatum,
+        enddatum,
+        handleStartDateChange,
+        handleEndDateChange,
+        disableDatesBeforeOrExactStartDate
+    } = useBookingContext();
 
     const handleFilterButtonClicked = () => {
         filterFerienwohnungen(
@@ -29,27 +35,6 @@ const FilterBar: React.FC<FilterBarProps> = ({
             enddatum ? enddatum.format('YYYY-MM-DD') : ''
         );
         setIsFiltered(true);
-    };
-
-    const handleStartDateChange = (date: dayjs.Dayjs | null) => {
-        if (date) {
-            const newStartdatum = dayjs(date);
-            setStartdatum(newStartdatum);
-            const newEnddatum = newStartdatum.add(1, 'day');
-            setEnddatum(newEnddatum);
-        } else {
-            setStartdatum(null);
-            setEnddatum(null);
-        }
-    };
-
-    const handleEndDateChange = (date: dayjs.Dayjs | null) => {
-        setEnddatum(date ? dayjs(date) : null);
-    };
-
-    const disableDatesBeforeOrExactStartDate = (date: dayjs.Dayjs) => {
-        if (!startdatum) return false; // No startdatum selected, allow all dates
-        return dayjs(date).isSame(dayjs(startdatum), 'day') || dayjs(date).isBefore(dayjs(startdatum), 'day');
     };
 
     return (
