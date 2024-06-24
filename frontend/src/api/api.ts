@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { Ausstattung, Bild, Buchung, Ferienwohnung, FerienwohnungFiltered, Kunde, Land } from '../types';
+import { Ausstattung, Besitzt, Bild, Buchung, Ferienwohnung, FerienwohnungFiltered, Kunde, Land } from '../types';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -154,6 +154,15 @@ export const fetchBuchungen = async (): Promise<Buchung[]> => {
         return response.data;
     } catch (error) {
         throw new Error(`Failed to fetch Buchungen: ${error}`);
+    }
+};
+
+export const fetchBesitzt = async (): Promise<Besitzt[]> => {
+    try {
+        const response = await axiosInstance.get<Besitzt[]>('/besitzt');
+        return response.data;
+    } catch (error) {
+        throw new Error(`Failed to fetch Besitzt: ${error}`);
     }
 };
 

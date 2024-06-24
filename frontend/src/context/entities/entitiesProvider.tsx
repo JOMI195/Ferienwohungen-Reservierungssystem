@@ -5,6 +5,7 @@ import { BildProvider } from './bildContext';
 import { AusstattungProvider } from './ausstattungContext';
 import { LandProvider } from './landContext';
 import { BuchungProvider } from './buchungContext';
+import { BesitztProvider } from './besitztContext';
 
 export const EntitiesProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     return (
@@ -14,7 +15,9 @@ export const EntitiesProvider: React.FC<PropsWithChildren<{}>> = ({ children }) 
                     <BildProvider>
                         <AusstattungProvider>
                             <LandProvider>
-                                {children}
+                                <BesitztProvider>
+                                    {children}
+                                </BesitztProvider>
                             </LandProvider>
                         </AusstattungProvider>
                     </BildProvider>

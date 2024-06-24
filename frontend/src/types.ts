@@ -56,3 +56,8 @@ export interface Buchung {
     rechnungsbetrag: number;
     rechnungsdatum: string;
 }
+
+export interface Besitzt {
+    ferienwohnungs_id: number;
+    ausstattungsname: string;
+}

@@ -19,7 +19,7 @@ public class BuchungRepository {
         this.dbHandler = DatabaseHandler.getInstance();
     }
 
-    public List<Buchung> fetchAllBuchungen() {
+    public List<Buchung> fetchAllBuchungen() throws SQLException {
         List<Buchung> buchungen = new ArrayList<>();
         String query = "SELECT * FROM buchung ORDER BY buchnungsnummer ASC";
         try {
@@ -34,11 +34,12 @@ public class BuchungRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw e;
         }
         return buchungen;
     }
 
-    public void insertBuchung(Buchung buchung) {
+    public void insertBuchung(Buchung buchung) throws SQLException {
         String query = "INSERT INTO buchung (ferienwohnungs_id, email, buchungsdatum, startdatum, enddatum, sterne, bewertungsdatum, rechnungsnummer, rechnungsbetrag, rechnungsdatum) "
                 +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -53,6 +54,7 @@ public class BuchungRepository {
         } catch (SQLException e) {
             dbHandler.rollbackTransaction();
             e.printStackTrace();
+            throw e;
         }
     }
 
