@@ -42,3 +42,17 @@ export interface Kunde {
     ort: string;
     landname: string;
 }
+
+export interface Buchung {
+    buchnungsnummer: number;
+    ferienwohnungs_id: number;
+    email: string;
+    buchungsdatum: string;
+    startdatum: string;
+    enddatum: string;
+    sterne: number;
+    bewertungsdatum: string;
+    rechnungsnummer: number;
+    rechnungsbetrag: number;
+    rechnungsdatum: string;
+}

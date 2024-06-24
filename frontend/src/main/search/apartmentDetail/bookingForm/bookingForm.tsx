@@ -2,6 +2,8 @@ import { useBookingContext } from "@/context/booking/bookingContext";
 import { Box, Button, Card, Grid, Rating, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Ferienwohnung } from '../../../../types';
+import { useState } from "react";
+import BookingDialog from "./bookingDialog";
 
 
 interface BookingFormProps {
@@ -15,14 +17,13 @@ const BookingForm: React.FC<BookingFormProps> = ({ selectedFerienwohnung }) => {
         handleStartDateChange,
         handleEndDateChange,
         disableDatesBeforeOrExactStartDate,
+        getDateDifferenceDays
     } = useBookingContext();
+    const [bookingDialogOpen, setBokkingDialogOpen] = useState(false);
 
-    const getDateDifference = () => {
-        if (startdatum && enddatum) {
-            return enddatum.diff(startdatum, 'day');
-        }
-        return 0;
-    };
+    const handleBookingButtonClick = () => {
+        setBokkingDialogOpen(true);
+    }
 
     return (
         <Card
@@ -89,15 +90,24 @@ const BookingForm: React.FC<BookingFormProps> = ({ selectedFerienwohnung }) => {
                 </Grid>
             </Box>
             <Box sx={{ pt: 2, display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "center" }}>
-                <Typography variant="h6">{`Gesamtpreis (${getDateDifference()} Nächte):`}</Typography>
+                <Typography variant="h6">{`Gesamtpreis (${getDateDifferenceDays()} Nächte):`}</Typography>
                 <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                    <Typography component={'div'} fontWeight={'fontWeightBold'} variant="h4">{`${getDateDifference() * selectedFerienwohnung.mietpreis}€`}</Typography>
+                    <Typography component={'div'} fontWeight={'fontWeightBold'} variant="h4">{`${getDateDifferenceDays() * selectedFerienwohnung.mietpreis}€`}</Typography>
                     {/* <Typography sx={{ pl: 1 }} variant="h6">{`(${getDateDifference()} Nächte)`}</Typography> */}
                 </Box>
                 <Box sx={{ pt: 2, width: "100%" }}>
-                    <Button sx={{ width: "100%", borderRadius: theme => theme.shape.borderRadius }} variant="contained">Buchen</Button>
+                    <Button
+                        sx={{
+                            width: "100%",
+                            borderRadius: theme => theme.shape.borderRadius
+                        }}
+                        onClick={handleBookingButtonClick}
+                        variant="contained"
+                        disabled={getDateDifferenceDays() === 0 ? true : false}
+                    >Jetzt Buchen</Button>
                 </Box>
             </Box>
+            <BookingDialog open={bookingDialogOpen} setOpen={setBokkingDialogOpen} />
         </Card>
     );
 }

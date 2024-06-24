@@ -1,5 +1,6 @@
 import { useAusstattungContext } from './ausstattungContext';
 import { useBildContext } from './bildContext';
+import { useBuchungContext } from './buchungContext';
 import { useFerienwohnungContext } from './ferienwohnungContext';
 import { useKundeContext } from './kundeContext';
 import { useLandContext } from './landContext';
@@ -10,6 +11,7 @@ export const useEntitiesContext = () => {
     const bildContext = useBildContext();
     const ausstattungContext = useAusstattungContext();
     const landContext = useLandContext();
+    const buchungContext = useBuchungContext();
 
     return {
         ...ferienwohnungContext,
@@ -17,5 +19,6 @@ export const useEntitiesContext = () => {
         ...bildContext,
         ...ausstattungContext,
         ...landContext,
+        ...buchungContext,
     };
 };

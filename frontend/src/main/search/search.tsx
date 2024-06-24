@@ -33,10 +33,12 @@ const Search = () => {
     };
 
     useEffect(() => {
-        refreshFerienwohnungen();
-        refreshBilder();
-        refreshAusstattungen();
-        refreshLaender();
+        if (ferienwohnungen.length === 0) {
+            refreshFerienwohnungen();
+            refreshBilder();
+            refreshAusstattungen();
+            refreshLaender();
+        }
     }, []);
 
     useEffect(() => {

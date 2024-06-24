@@ -2,6 +2,7 @@ package de.htwg.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDate;
 
 public class Buchung {
@@ -48,7 +49,7 @@ public class Buchung {
         return buchnungsnummer;
     }
 
-    public Long getFerienwohnungs_Id() {
+    public Long getFerienwohnungs_id() {
         return ferienwohnungs_id;
     }
 
@@ -92,7 +93,7 @@ public class Buchung {
         this.buchnungsnummer = buchnungsnummer;
     }
 
-    public void setFerienwohnungs_Id(Long ferienwohnungs_id) {
+    public void setFerienwohnungs_id(Long ferienwohnungs_id) {
         this.ferienwohnungs_id = ferienwohnungs_id;
     }
 

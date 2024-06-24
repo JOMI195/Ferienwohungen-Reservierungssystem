@@ -1,5 +1,33 @@
 services:
+
+  database:
+    restart: always
+    image: doctorkirk/oracle-19c
+    container_name: database
+    ports:
+      - "1521:1521"
+      - "5500:5500"
+    environment:
+      - ORACLE_PDB=${ORACLE_PDB}
+      - ORACLE_PWD=${ORACLE_PWD}
+      - ORACLE_MEM=${ORACLE_MEM}
+      - ORACLE_SGA=${ORACLE_SGA}
+    volumes:
+      - db-data:/opt/oracle/oradata
+    env_file:
+      - .env
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "echo 'SELECT 1 FROM dual;' | sqlplus system/${ORACLE_PWD}@localhost:1521/${ORACLE_PDB}"
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+
   backend:
+    restart: unless-stopped
     build:
       context: .
       dockerfile: Dockerfile.backend
@@ -8,3 +36,10 @@ services:
       - "8080:8080"
     env_file:
       - .env
+    depends_on:
+      database:
+        condition: service_healthy
+
+volumes:
+  db-data:
+    driver: local

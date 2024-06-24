@@ -5,19 +5,38 @@ import { useEntitiesContext } from '@/context/entities/useEntitiesContext';
 import LocationMap from './locationMap/locationMap';
 import { useEffect } from 'react';
 import BookingForm from './bookingForm/bookingForm';
+import { useBookingContext } from '@/context/booking/bookingContext';
 
 const ApartmentDetail = () => {
     const { id: ferienwohnungs_id } = useParams<{ id: string }>();
-    const { ferienwohnungen, bilder, laender, ausstattungen, refreshFerienwohnungen, refreshBilder, refreshAusstattungen, refreshLaender } = useEntitiesContext();
+    const {
+        ferienwohnungen,
+        bilder,
+        laender,
+        ausstattungen,
+        refreshFerienwohnungen,
+        refreshBilder,
+        refreshAusstattungen,
+        refreshLaender
+    } = useEntitiesContext();
+    const {
+        setBookingFerienwohung
+    } = useBookingContext();
     const selectedFerienwohnung = ferienwohnungs_id !== undefined ? ferienwohnungen.find(ferienwohnung => ferienwohnung.ferienwohnungs_id === +ferienwohnungs_id) : undefined;
     const bild = ferienwohnungs_id !== undefined ? bilder.find(bild => bild.ferienwohnungs_id === +ferienwohnungs_id) : undefined;
 
     useEffect(() => {
-        refreshFerienwohnungen();
-        refreshBilder();
-        refreshAusstattungen();
-        refreshLaender();
+        if (ferienwohnungen.length === 0) {
+            refreshFerienwohnungen();
+            refreshBilder();
+            refreshAusstattungen();
+            refreshLaender();
+        }
     }, []);
+
+    useEffect(() => {
+        if (selectedFerienwohnung) setBookingFerienwohung(selectedFerienwohnung);
+    }, [selectedFerienwohnung]);
 
     if (!selectedFerienwohnung) {
         return <Typography>No apartment found with ID: {ferienwohnungs_id}</Typography>;
@@ -41,8 +60,8 @@ const ApartmentDetail = () => {
             <Box sx={{ mt: 5 }}>
                 <Typography variant="h3">{selectedFerienwohnung.ferienwohnungsname}</Typography>
                 <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
-                    <Box sx={{ mr: 1, display: 'flex', justifyContent: "center" }}>
-                        <Typography variant="body2">
+                    <Box sx={{ display: 'flex', justifyContent: "center" }}>
+                        <Typography sx={{ mr: 1 }} variant="body2">
                             {`${selectedFerienwohnung.straße} ${selectedFerienwohnung.hausnummer}, ${selectedFerienwohnung.postleitzahl} ${selectedFerienwohnung.ort}, ${selectedFerienwohnung.landname}`}
                         </Typography>
                         <Rating size="small" value={selectedFerienwohnung.avgSterne} readOnly />

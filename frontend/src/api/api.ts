@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { Ausstattung, Bild, Ferienwohnung, FerienwohnungFiltered, Kunde, Land } from '../types';
+import { Ausstattung, Bild, Buchung, Ferienwohnung, FerienwohnungFiltered, Kunde, Land } from '../types';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -137,6 +137,23 @@ export const addLand = async (newLand: Land): Promise<void> => {
         await axiosInstance.post('/land', newLand);
     } catch (error) {
         throw new Error(`Failed to add newLand: ${error}`);
+    }
+};
+
+export const addBuchung = async (newBuchung: Buchung): Promise<void> => {
+    try {
+        await axiosInstance.post('/buchung', newBuchung);
+    } catch (error) {
+        throw new Error(`Failed to add Buchung: ${error}`);
+    }
+};
+
+export const fetchBuchungen = async (): Promise<Buchung[]> => {
+    try {
+        const response = await axiosInstance.get<Buchung[]>('/buchung');
+        return response.data;
+    } catch (error) {
+        throw new Error(`Failed to fetch Buchungen: ${error}`);
     }
 };
 

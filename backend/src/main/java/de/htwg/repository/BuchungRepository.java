@@ -72,17 +72,24 @@ public class BuchungRepository {
     }
 
     private void setBuchungParameters(PreparedStatement stmt, Buchung buchung) throws SQLException {
-        stmt.setLong(1, buchung.getFerienwohnungs_Id());
+        // stmt.setDate(3, buchung.getBuchungsdatum() != null ?
+        // Date.valueOf(buchung.getBuchungsdatum()) : null);
+        stmt.setLong(1, buchung.getFerienwohnungs_id());
         stmt.setString(2, buchung.getEmail());
-        stmt.setDate(3, buchung.getBuchungsdatum() != null ? Date.valueOf(buchung.getBuchungsdatum()) : null);
-        stmt.setDate(4, buchung.getStartdatum() != null ? Date.valueOf(buchung.getStartdatum()) : null);
-        stmt.setDate(5, buchung.getEnddatum() != null ? Date.valueOf(buchung.getEnddatum()) : null);
-        if (buchung.getSterne() != null) {
-            stmt.setInt(6, buchung.getSterne());
-        } else {
-            stmt.setNull(6, Types.INTEGER);
-        }
-        stmt.setDate(7, buchung.getBewertungsdatum() != null ? Date.valueOf(buchung.getBewertungsdatum()) : null);
+        stmt.setDate(3, Date.valueOf(buchung.getBuchungsdatum()));
+        stmt.setDate(4, Date.valueOf(buchung.getStartdatum()));
+        stmt.setDate(5, Date.valueOf(buchung.getEnddatum()));
+        stmt.setNull(6, Types.INTEGER);
+        /*
+         * if (buchung.getSterne() != null) {
+         * stmt.setInt(6, buchung.getSterne());
+         * } else {
+         * stmt.setNull(6, Types.INTEGER);
+         * }
+         */
+        // stmt.setDate(7, buchung.getBewertungsdatum() != null ?
+        // Date.valueOf(buchung.getBewertungsdatum()) : null);
+        stmt.setDate(7, null);
         stmt.setInt(8, buchung.getRechnungsnummer());
         stmt.setDouble(9, buchung.getRechnungsbetrag());
         stmt.setDate(10, buchung.getRechnungsdatum() != null ? Date.valueOf(buchung.getRechnungsdatum()) : null);
