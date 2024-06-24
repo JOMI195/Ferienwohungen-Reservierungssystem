@@ -5,6 +5,8 @@ import { useBuchungContext } from './buchungContext';
 import { useFerienwohnungContext } from './ferienwohnungContext';
 import { useKundeContext } from './kundeContext';
 import { useLandContext } from './landContext';
+import { useLiegtInDerNaeheVonContext } from './liegtInDerNaeheVonContext';
+import { useTouristenattraktionContext } from './touristenattraktionContext';
 
 export const useEntitiesContext = () => {
     const ferienwohnungContext = useFerienwohnungContext();
@@ -14,6 +16,8 @@ export const useEntitiesContext = () => {
     const landContext = useLandContext();
     const buchungContext = useBuchungContext();
     const besitztContext = useBesitztContext();
+    const touristenattraktionContext = useTouristenattraktionContext();
+    const liegtInDerNaeheVonContext = useLiegtInDerNaeheVonContext();
 
     return {
         ...ferienwohnungContext,
@@ -23,5 +27,7 @@ export const useEntitiesContext = () => {
         ...landContext,
         ...buchungContext,
         ...besitztContext,
+        ...touristenattraktionContext,
+        ...liegtInDerNaeheVonContext,
     };
 };

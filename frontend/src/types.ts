@@ -71,7 +71,7 @@ export interface Besitzt {
 }
 
 export interface LiegtInDerNaeheVon {
-    ferienwohnungsId: number;
+    ferienwohnungs_id: number;
     touristenattraktionsname: string;
     entfernung: number;
 }

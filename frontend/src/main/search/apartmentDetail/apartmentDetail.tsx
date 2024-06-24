@@ -6,7 +6,7 @@ import LocationMap from './locationMap/locationMap';
 import { useEffect } from 'react';
 import BookingForm from './bookingForm/bookingForm';
 import { useBookingContext } from '@/context/booking/bookingContext';
-import { Ausstattung, Besitzt, Ferienwohnung } from '@/types';
+import { Ausstattung, Besitzt, Ferienwohnung, LiegtInDerNaeheVon, Touristenattraktion } from '@/types';
 
 import {
     Balcony as BalconyIcon,
@@ -20,8 +20,41 @@ import {
     AcUnit as AcUnitIcon,
     Whatshot as HeatingIcon,
     Games as DartsIcon,
+    DirectionsWalk as DirectionsWalkIcon,
+    LocationOn as LocationOnIcon,
+    BeachAccess as BeachAccessIcon,
+    Park as LocalParkIcon,
+    ChildFriendly as ChildFriendlyIcon,
+    WineBar as WineBarIcon,
+    NaturePeople as NaturePeopleIcon,
 } from '@mui/icons-material';
 type IconMap = Record<string, JSX.Element>;
+
+const ausstattungIconMap: IconMap = {
+    Balkon: <BalconyIcon />,
+    Küche: <KitchenIcon />,
+    TV: <TvIcon />,
+    Sauna: <SaunaIcon />,
+    WLAN: <WifiIcon />,
+    Garten: <GardenIcon />,
+    Grillplatz: <GrillIcon />,
+    Pool: <PoolIcon />,
+    Klimaanlage: <AcUnitIcon />,
+    Heizung: <HeatingIcon />,
+    Dartscheibe: <DartsIcon />,
+};
+
+const touristAttractionIconMap: IconMap = {
+    Bergbahn: <DirectionsWalkIcon />,
+    Aussichtspunkt: <LocationOnIcon />,
+    Park: <LocalParkIcon />,
+    See: <NaturePeopleIcon />,
+    Stadtpark: <LocalParkIcon />,
+    Weinberg: <WineBarIcon />,
+    Freibad: <PoolIcon />,
+    Spielplatz: <ChildFriendlyIcon />,
+    Strand: <BeachAccessIcon />,
+};
 
 const ApartmentDetail = () => {
     const { id: ferienwohnungs_id } = useParams<{ id: string }>();
@@ -33,7 +66,11 @@ const ApartmentDetail = () => {
         refreshBilder,
         refreshAusstattungen,
         refreshBesitzt,
-        besitzt
+        besitzt,
+        touristenattraktionen,
+        refreshTouristenattraktionen,
+        liegtInDerNaeheVon,
+        refreshLiegtInDerNaeheVon
     } = useEntitiesContext();
     const {
         setBookingFerienwohung
@@ -42,19 +79,6 @@ const ApartmentDetail = () => {
     const bild = ferienwohnungs_id !== undefined ? bilder.find(bild => bild.ferienwohnungs_id === +ferienwohnungs_id) : undefined;
 
     const renderAusstattungListItems = (ausstattungen: Ausstattung[], besitzt: Besitzt[], selectedFerienwohnung: Ferienwohnung) => {
-        const iconMap: IconMap = {
-            Balkon: <BalconyIcon />,
-            Küche: <KitchenIcon />,
-            TV: <TvIcon />,
-            Sauna: <SaunaIcon />,
-            WLAN: <WifiIcon />,
-            Garten: <GardenIcon />,
-            Grillplatz: <GrillIcon />,
-            Pool: <PoolIcon />,
-            Klimaanlage: <AcUnitIcon />,
-            Heizung: <HeatingIcon />,
-            Dartscheibe: <DartsIcon />,
-        };
         const filteredAusstattungen = ausstattungen.filter(ausstattungItem =>
             besitzt.some(besitztItem =>
                 besitztItem.ferienwohnungs_id === selectedFerienwohnung.ferienwohnungs_id &&
@@ -65,11 +89,32 @@ const ApartmentDetail = () => {
         return filteredAusstattungen.map(ausstattungItem => (
             <ListItem disablePadding key={ausstattungItem.ausstattungsname}>
                 <ListItemIcon>
-                    {iconMap[ausstattungItem.ausstattungsname]}
+                    {ausstattungIconMap[ausstattungItem.ausstattungsname]}
                 </ListItemIcon>
                 <ListItemText primary={ausstattungItem.ausstattungsname} />
             </ListItem>
         ));
+    };
+
+    const renderTouristenattraktionenListItems = (touristenattraktionen: Touristenattraktion[], liegtInDerNaeheVon: LiegtInDerNaeheVon[], selectedFerienwohnung: Ferienwohnung) => {
+        const relevantAttractions = liegtInDerNaeheVon.filter(item => item.ferienwohnungs_id === selectedFerienwohnung.ferienwohnungs_id);
+
+        return relevantAttractions.map(item => {
+            const attraction = touristenattraktionen.find(attr => attr.touristenattraktionsname === item.touristenattraktionsname);
+
+            if (attraction) {
+                return (
+                    <ListItem disablePadding key={attraction.touristenattraktionsname}>
+                        <ListItemIcon>
+                            {touristAttractionIconMap[attraction.touristenattraktionsname] || <LocationOnIcon />}
+                        </ListItemIcon>
+                        <ListItemText primary={`${attraction.touristenattraktionsname} (${item.entfernung} km)`} secondary={`${attraction.beschreibung}`} />
+                    </ListItem>
+                );
+            }
+
+            return null;
+        }).filter(Boolean);
     };
 
     useEffect(() => {
@@ -78,7 +123,11 @@ const ApartmentDetail = () => {
             refreshBilder();
             refreshAusstattungen();
         }
-        refreshBesitzt();
+        if (touristenattraktionen.length === 0) {
+            refreshBesitzt();
+            refreshTouristenattraktionen();
+            refreshLiegtInDerNaeheVon();
+        }
     }, []);
 
     useEffect(() => {
@@ -147,13 +196,14 @@ const ApartmentDetail = () => {
                 <Divider sx={{ my: 2, width: "100%", borderBottomWidth: 1 }} />
                 <Box>
                     <Typography variant="h5">{"Hier machen Sie Urlaub"}</Typography>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={3}>
                         <Grid item xs={12} md={6}>
                             <LocationMap address={`${selectedFerienwohnung.straße} ${selectedFerienwohnung.hausnummer}, ${selectedFerienwohnung.postleitzahl} ${selectedFerienwohnung.ort}, ${selectedFerienwohnung.landname}`} />
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <List>
-
+                                <Typography variant="h6">{"Beliebte Touristenattraktionen in der Nähe"}</Typography>
+                                {renderTouristenattraktionenListItems(touristenattraktionen, liegtInDerNaeheVon, selectedFerienwohnung)}
                             </List>
                         </Grid>
                     </Grid>

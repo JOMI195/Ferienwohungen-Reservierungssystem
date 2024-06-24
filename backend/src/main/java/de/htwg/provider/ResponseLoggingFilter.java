@@ -5,6 +5,8 @@ import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Provider
 public class ResponseLoggingFilter implements ContainerResponseFilter {
@@ -16,9 +18,13 @@ public class ResponseLoggingFilter implements ContainerResponseFilter {
         String uri = requestContext.getUriInfo().getRequestUri().toString();
         int status = responseContext.getStatus();
         // Object entity = responseContext.getEntity();
+        LocalDateTime now = LocalDateTime.now();
 
-        System.out.println("Response for " + method + " request to URI: " + uri);
-        System.out.println("Status: " + status);
+        // Format date and time
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = now.format(formatter);
+
+        System.out.println(formattedDateTime + " - " + method + " - " + uri + " - " + status);
         /*
          * if (entity != null) {
          * System.out.println("Response entity: " + entity.toString());

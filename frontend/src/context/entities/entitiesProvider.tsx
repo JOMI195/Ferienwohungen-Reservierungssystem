@@ -6,6 +6,8 @@ import { AusstattungProvider } from './ausstattungContext';
 import { LandProvider } from './landContext';
 import { BuchungProvider } from './buchungContext';
 import { BesitztProvider } from './besitztContext';
+import { TouristenattraktionProvider } from './touristenattraktionContext';
+import { LiegtInDerNaeheVonProvider } from './liegtInDerNaeheVonContext';
 
 export const EntitiesProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     return (
@@ -16,7 +18,11 @@ export const EntitiesProvider: React.FC<PropsWithChildren<{}>> = ({ children }) 
                         <AusstattungProvider>
                             <LandProvider>
                                 <BesitztProvider>
-                                    {children}
+                                    <TouristenattraktionProvider>
+                                        <LiegtInDerNaeheVonProvider>
+                                            {children}
+                                        </LiegtInDerNaeheVonProvider>
+                                    </TouristenattraktionProvider>
                                 </BesitztProvider>
                             </LandProvider>
                         </AusstattungProvider>
