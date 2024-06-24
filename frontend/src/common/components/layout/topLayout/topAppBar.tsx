@@ -6,22 +6,21 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
 import { appBarMenuItems } from '@/assets/appBarMenu';
 import LogoIcon from './logoIcon';
+import { useColorThemeContext } from '@/context/colorTheme/colorThemeContext';
 
-const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function TopAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const { theme, colorMode, toggleColorMode, iconComponent: IconComponent } = useColorThemeContext();
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -129,8 +128,12 @@ function TopAppBar() {
                         StayFinder
                     </Typography>
                 </Box>
-
                 <Box>
+                    <Tooltip title={colorMode === "dark" ? "Wechsel in den hellen Mouds" : "Wechsel in den dunklen Modus"}>
+                        <IconButton size="large" onClick={toggleColorMode} sx={{ p: 1, mr: 2 }}>
+                            <IconComponent />
+                        </IconButton>
+                    </Tooltip>
                     <Tooltip title="Open settings">
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                             <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />

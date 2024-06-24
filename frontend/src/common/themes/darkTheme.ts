@@ -7,15 +7,9 @@ const darkTheme = createTheme({
         mode: 'dark',
         primary: {
             main: '#eaeaff',
-            dark: '#eaeaff',
-            light: '#eaeaff',
-            contrastText: '#ffffff',
         },
         secondary: {
             main: '#e7e3fc',
-            dark: '#eaeaff',
-            light: '#eaeaff',
-            contrastText: '#ffffff',
         },
         text: {
             primary: '#eaeaff',
@@ -23,8 +17,8 @@ const darkTheme = createTheme({
             disabled: '#e7e3fc',
         },
         background: {
-            paper: '#30334e',
-            default: '#282a42',
+            default: '#252627',
+            paper: '#131b23',
         },
     },
 });

@@ -1,11 +1,11 @@
 import { useEntitiesContext } from '@/context/entities/useEntitiesContext';
-import { Box, Button, Card, CardMedia, Grid, Skeleton, Typography, useTheme } from '@mui/material';
+import { Box, Button, Card, CardMedia, Grid, Skeleton, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import AppartmentCard from './appartmentCard/appartmentCard';
 import FilterBar from './filterBar/filterBar';
+import SortBar from './sortBar/sortBar';
 
 const Search = () => {
-    const theme = useTheme();
     const {
         ferienwohnungen,
         refreshFerienwohnungen,
@@ -28,6 +28,10 @@ const Search = () => {
         setIsFiltered(false);
     };
 
+    const handleSortedFerienwohnungen = (sortedFerienwohnungen: any[]) => {
+        setRenderedFerienwohnungen(sortedFerienwohnungen);
+    };
+
     useEffect(() => {
         refreshFerienwohnungen();
         refreshBilder();
@@ -36,7 +40,7 @@ const Search = () => {
     }, []);
 
     useEffect(() => {
-        isFiltered ? setRenderedFerienwohnungen(filteredFerienwohnungen) : setRenderedFerienwohnungen(ferienwohnungen)
+        setRenderedFerienwohnungen(isFiltered ? filteredFerienwohnungen : ferienwohnungen);
     }, [ferienwohnungen, filteredFerienwohnungen, isFiltered]);
 
     return (
@@ -80,17 +84,25 @@ const Search = () => {
                         ausstattungen={ausstattungen}
                         filterFerienwohnungen={filterFerienwohnungen}
                         setIsFiltered={setIsFiltered}
+                        onResetFilter={handleResetFilterButtonClicked}
                     />
                 </Box>
             </Card >
             <Box mt={5} p={5}>
                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-between", alignItems: "center", pb: 2 }}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: "flex-start", pb: 2 }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: "flex-start" }}>
                         <Typography variant="h4" sx={{}}>{`${isFiltered ? "Gefilterte" : "Alle"} Ferienwohnungen`}</Typography>
                         <Typography variant="body1" sx={{}}>{`${renderedFerienwohnungen.length} Ferienwohnungen`}</Typography>
                     </Box>
-                    <Button sx={{ minHeight: "40px" }} color='secondary' variant='contained' onClick={handleResetFilterButtonClicked}>{"Alle anzeigen (Filter zurücksetzen)"}</Button>
                 </Box>
+                <Grid container alignItems="stretch" justifyContent="flex-end" sx={{ pb: 2 }}>
+                    <Grid item xs={12} md={4}>
+                        <SortBar
+                            ferienwohnungen={renderedFerienwohnungen}
+                            onSortedFerienwohnungen={handleSortedFerienwohnungen}
+                        />
+                    </Grid>
+                </Grid>
                 <Grid container alignItems="stretch" justifyContent="flex-start" spacing={3}>
                     {(ferienwohnungenLoading || filteredFerienwohnungenLoading) ? (
                         Array.from({ length: 6 }).map((_, index) => (

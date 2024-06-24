@@ -8,13 +8,15 @@ interface FilterBarProps {
     ausstattungen: Array<{ ausstattungsname: string }>;
     filterFerienwohnungen: (landname: string, ausstattung: string, startdatum: string, enddatum: string) => void;
     setIsFiltered: (value: boolean) => void;
+    onResetFilter: () => void;
 }
 
 const FilterBar: React.FC<FilterBarProps> = ({
     laender,
     ausstattungen,
     filterFerienwohnungen,
-    setIsFiltered
+    setIsFiltered,
+    onResetFilter
 }) => {
     const [landname, setLandname] = useState('');
     const [ausstattung, setAusstattung] = useState('');
@@ -22,6 +24,8 @@ const FilterBar: React.FC<FilterBarProps> = ({
     const {
         startdatum,
         enddatum,
+        setStartdatum,
+        setEnddatum,
         handleStartDateChange,
         handleEndDateChange,
         disableDatesBeforeOrExactStartDate
@@ -37,11 +41,19 @@ const FilterBar: React.FC<FilterBarProps> = ({
         setIsFiltered(true);
     };
 
+    const handleResetButtonClicked = () => {
+        setLandname('');
+        setAusstattung('');
+        setStartdatum(null);
+        setEnddatum(null);
+        onResetFilter();
+    };
+
     return (
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <Typography variant="h4" sx={{ pb: 2 }}>Suche freie Ferienwohnungen</Typography>
             <Grid sx={{ px: 2 }} container spacing={2} alignItems="stretch">
-                <Grid item xs={12} sm={6} md={2}>
+                <Grid item xs={12} sm={6} md={3}>
                     <FormControl fullWidth>
                         <InputLabel id="land-select-label">Land</InputLabel>
                         <Select
@@ -58,7 +70,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={2}>
+                <Grid item xs={12} sm={6} md={3}>
                     <FormControl fullWidth>
                         <InputLabel id="ausstattung-select-label">Ausstattung</InputLabel>
                         <Select
@@ -116,14 +128,27 @@ const FilterBar: React.FC<FilterBarProps> = ({
                         }}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6} md={2} sx={{ display: 'flex', alignItems: 'stretch' }}>
-                    <Button
-                        sx={{ width: '100%', px: 2 }}
-                        variant="contained"
-                        onClick={handleFilterButtonClicked}
-                    >
-                        Suchen
-                    </Button>
+                <Grid item xs={12}>
+                    <Grid container spacing={2} justifyContent="center" alignItems="stretch">
+                        <Grid item xs={12} md={3}>
+                            <Button
+                                sx={{ width: '100%', px: 2 }}
+                                variant="outlined"
+                                onClick={handleResetButtonClicked}
+                            >
+                                Filter zurücksetzen
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12} md={3} >
+                            <Button
+                                sx={{ width: '100%', px: 2 }}
+                                variant="contained"
+                                onClick={handleFilterButtonClicked}
+                            >
+                                Suchen
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Grid>
         </Box>
