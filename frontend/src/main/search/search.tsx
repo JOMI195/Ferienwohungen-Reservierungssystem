@@ -1,5 +1,5 @@
 import { useEntitiesContext } from '@/context/entities/useEntitiesContext';
-import { Box, Button, Card, CardMedia, Grid, Skeleton, Typography } from '@mui/material';
+import { Box, Card, CardMedia, Grid, Skeleton, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import AppartmentCard from './appartmentCard/appartmentCard';
 import FilterBar from './filterBar/filterBar';
@@ -83,6 +83,7 @@ const Search = () => {
                         laender={laender}
                         ausstattungen={ausstattungen}
                         filterFerienwohnungen={filterFerienwohnungen}
+                        isFiltered={isFiltered}
                         setIsFiltered={setIsFiltered}
                         onResetFilter={handleResetFilterButtonClicked}
                     />

@@ -20,7 +20,7 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 function TopAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-    const { theme, colorMode, toggleColorMode, iconComponent: IconComponent } = useColorThemeContext();
+    const { colorMode, toggleColorMode, iconComponent: IconComponent } = useColorThemeContext();
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);

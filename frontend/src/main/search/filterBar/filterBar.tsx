@@ -1,12 +1,13 @@
 import { useBookingContext } from '@/context/booking/bookingContext';
 import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface FilterBarProps {
     laender: Array<{ landname: string }>;
     ausstattungen: Array<{ ausstattungsname: string }>;
     filterFerienwohnungen: (landname: string, ausstattung: string, startdatum: string, enddatum: string) => void;
+    isFiltered: boolean;
     setIsFiltered: (value: boolean) => void;
     onResetFilter: () => void;
 }
@@ -15,6 +16,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
     laender,
     ausstattungen,
     filterFerienwohnungen,
+    isFiltered,
     setIsFiltered,
     onResetFilter
 }) => {
@@ -48,6 +50,10 @@ const FilterBar: React.FC<FilterBarProps> = ({
         setEnddatum(null);
         onResetFilter();
     };
+
+    useEffect(() => {
+        if (!isFiltered) handleResetButtonClicked()
+    }, [isFiltered]);
 
     return (
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
