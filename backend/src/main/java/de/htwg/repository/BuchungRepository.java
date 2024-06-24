@@ -8,8 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class BuchungRepository {
 
@@ -78,7 +80,7 @@ public class BuchungRepository {
         // Date.valueOf(buchung.getBuchungsdatum()) : null);
         stmt.setLong(1, buchung.getFerienwohnungs_id());
         stmt.setString(2, buchung.getEmail());
-        stmt.setDate(3, Date.valueOf(buchung.getBuchungsdatum()));
+        stmt.setDate(3, Date.valueOf(LocalDate.now()));
         stmt.setDate(4, Date.valueOf(buchung.getStartdatum()));
         stmt.setDate(5, Date.valueOf(buchung.getEnddatum()));
         stmt.setNull(6, Types.INTEGER);
@@ -92,8 +94,8 @@ public class BuchungRepository {
         // stmt.setDate(7, buchung.getBewertungsdatum() != null ?
         // Date.valueOf(buchung.getBewertungsdatum()) : null);
         stmt.setDate(7, null);
-        stmt.setInt(8, buchung.getRechnungsnummer());
+        stmt.setInt(8, new Random().nextInt(10000) + 1);
         stmt.setDouble(9, buchung.getRechnungsbetrag());
-        stmt.setDate(10, buchung.getRechnungsdatum() != null ? Date.valueOf(buchung.getRechnungsdatum()) : null);
+        stmt.setDate(10, Date.valueOf(LocalDate.now()));
     }
 }

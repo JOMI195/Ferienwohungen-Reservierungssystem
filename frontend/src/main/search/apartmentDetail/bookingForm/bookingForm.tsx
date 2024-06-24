@@ -3,7 +3,7 @@ import { Box, Button, Card, Grid, Rating, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Ferienwohnung } from '../../../../types';
 import { useState } from "react";
-import BookingDialog from "./bookingDialog";
+import BookingDialog from "./dialogs/bookingDialog";
 
 
 interface BookingFormProps {

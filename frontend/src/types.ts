@@ -57,7 +57,26 @@ export interface Buchung {
     rechnungsdatum: string;
 }
 
+export interface BuchungCreate {
+    ferienwohnungs_id: number;
+    email: string;
+    startdatum: string;
+    enddatum: string;
+    rechnungsbetrag: number;
+}
+
 export interface Besitzt {
     ferienwohnungs_id: number;
     ausstattungsname: string;
+}
+
+export interface LiegtInDerNaeheVon {
+    ferienwohnungsId: number;
+    touristenattraktionsname: string;
+    entfernung: number;
+}
+
+export interface Touristenattraktion {
+    touristenattraktionsname: string;
+    beschreibung?: string;
 }

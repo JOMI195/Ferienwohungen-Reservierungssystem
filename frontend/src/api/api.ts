@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { Ausstattung, Besitzt, Bild, Buchung, Ferienwohnung, FerienwohnungFiltered, Kunde, Land } from '../types';
+import { Ausstattung, Besitzt, Bild, Buchung, BuchungCreate, Ferienwohnung, FerienwohnungFiltered, Kunde, Land, LiegtInDerNaeheVon, Touristenattraktion } from '../types';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -140,7 +140,7 @@ export const addLand = async (newLand: Land): Promise<void> => {
     }
 };
 
-export const addBuchung = async (newBuchung: Buchung): Promise<void> => {
+export const addBuchung = async (newBuchung: BuchungCreate): Promise<void> => {
     try {
         await axiosInstance.post('/buchung', newBuchung);
     } catch (error) {
@@ -163,6 +163,40 @@ export const fetchBesitzt = async (): Promise<Besitzt[]> => {
         return response.data;
     } catch (error) {
         throw new Error(`Failed to fetch Besitzt: ${error}`);
+    }
+};
+
+export const fetchLiegtInDerNaeheVon = async (): Promise<LiegtInDerNaeheVon[]> => {
+    try {
+        const response = await axiosInstance.get<LiegtInDerNaeheVon[]>('/liegtindernähevon');
+        return response.data;
+    } catch (error) {
+        throw new Error(`Failed to fetch LiegtInDerNaeheVon: ${error}`);
+    }
+};
+
+export const addLiegtInDerNaeheVon = async (newLiegtInDerNaeheVon: LiegtInDerNaeheVon): Promise<void> => {
+    try {
+        await axiosInstance.post('/liegtindernähevon', newLiegtInDerNaeheVon);
+    } catch (error) {
+        throw new Error(`Failed to add LiegtInDerNaeheVon: ${error}`);
+    }
+};
+
+export const fetchTouristenattraktionen = async (): Promise<Touristenattraktion[]> => {
+    try {
+        const response = await axiosInstance.get<Touristenattraktion[]>('/touristenattraktion');
+        return response.data;
+    } catch (error) {
+        throw new Error(`Failed to fetch Touristenattraktionen: ${error}`);
+    }
+};
+
+export const addTouristenattraktion = async (newTouristenattraktion: Touristenattraktion): Promise<void> => {
+    try {
+        await axiosInstance.post('/touristenattraktion', newTouristenattraktion);
+    } catch (error) {
+        throw new Error(`Failed to add Touristenattraktion: ${error}`);
     }
 };
 

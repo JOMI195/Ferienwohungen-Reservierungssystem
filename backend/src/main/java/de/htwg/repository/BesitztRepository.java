@@ -59,7 +59,7 @@ public class BesitztRepository {
     }
 
     private void setBesitztParameters(PreparedStatement stmt, Besitzt besitzt) throws SQLException {
-        stmt.setLong(1, besitzt.getFerienwohnungs_Id());
+        stmt.setLong(1, besitzt.getFerienwohnungs_id());
         stmt.setString(2, besitzt.getAusstattungsname());
     }
 }

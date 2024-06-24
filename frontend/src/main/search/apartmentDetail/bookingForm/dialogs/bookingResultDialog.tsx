@@ -8,14 +8,15 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Alert } from '@mui/material';
 
-interface ProcessBookingDialogProps {
+interface BookingResultDialogProps {
     bookingFailure: boolean;
     bookingSuccess: boolean;
+    bookingFailureErrorMessage: string;
     onSuccessClose: () => void;
     onFailureClose: () => void;
 }
 
-const ProcessBookingDialog: React.FC<ProcessBookingDialogProps> = ({ onSuccessClose, bookingSuccess, bookingFailure, onFailureClose }) => {
+const BookingResultDialog: React.FC<BookingResultDialogProps> = ({ onSuccessClose, bookingSuccess, bookingFailureErrorMessage, bookingFailure, onFailureClose }) => {
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
@@ -53,6 +54,7 @@ const ProcessBookingDialog: React.FC<ProcessBookingDialogProps> = ({ onSuccessCl
                     {bookingFailure &&
                         <Alert severity="error">
                             <Typography>{`Ihre Buchung ist fehlgeschlagen.`}</Typography>
+                            <Typography>{bookingFailureErrorMessage}</Typography>
                         </Alert>
                     }
                 </DialogContentText>
@@ -66,4 +68,4 @@ const ProcessBookingDialog: React.FC<ProcessBookingDialogProps> = ({ onSuccessCl
     );
 }
 
-export default ProcessBookingDialog;
+export default BookingResultDialog;

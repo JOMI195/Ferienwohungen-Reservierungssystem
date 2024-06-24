@@ -8,10 +8,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useBookingContext } from '@/context/booking/bookingContext';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { useEntitiesContext } from '@/context/entities/useEntitiesContext';
-import { Buchung } from '@/types';
-import ProcessBookingDialog from './processBookingDialog';
+import { BuchungCreate, Ferienwohnung } from '@/types';
+import BookingResultDialog from './bookingResultDialog';
 import { useNavigate } from 'react-router-dom';
 import { getSearchtUrl } from '@/assets/appEndpoints';
+import dayjs from 'dayjs';
 
 interface BookingDialogProps {
     open: boolean;
@@ -29,13 +30,17 @@ const BookingDialog: React.FC<BookingDialogProps> = ({
         getDateDifferenceDays
     } = useBookingContext();
     const {
-        addBuchung
+        addBuchung,
+        filterFerienwohnungen,
+        filteredFerienwohnungen,
+        filteredFerienwohnungenLoading
     } = useEntitiesContext();
     const navigate = useNavigate();
 
     const [loading, setLoading] = React.useState(false);
     const [bookingSuccess, setBookingSuccess] = React.useState(false);
     const [bookingFailure, setBookingFailure] = React.useState(false);
+    const [bookingFailureErrorMessage, setBookingFailureErrorMessage] = React.useState("");
 
     const handleClose = () => {
         if (!loading) {
@@ -43,32 +48,53 @@ const BookingDialog: React.FC<BookingDialogProps> = ({
         }
     };
 
+    const validateBookingData = async (bookingFerienwohung: Ferienwohnung, startdatum: dayjs.Dayjs, enddatum: dayjs.Dayjs): Promise<boolean> => {
+        let isValid = true;
+        // booking span has to be at least three days
+        if (getDateDifferenceDays() <= 3) { isValid = false; setBookingFailureErrorMessage("Aufenthaltsdauer muss mehr als 3 Tage betragen"); return isValid; }
+        // check if available
+        await filterFerienwohnungen(undefined, undefined, startdatum.format('YYYY-MM-DD'), enddatum.format('YYYY-MM-DD'));
+        while (filteredFerienwohnungenLoading) { }
+        const availableWohnung = filteredFerienwohnungen.find((filteredWohohnung) => filteredWohohnung.ferienwohnungs_id === bookingFerienwohung.ferienwohnungs_id);
+        if (availableWohnung === undefined) { isValid = false; setBookingFailureErrorMessage("Im gewünschten Zeitraum nicht verfügbar"); return isValid; }
+
+        return isValid;
+    }
+
+    const onBookingFailure = () => {
+        setLoading(false);
+        setBookingFailure(true);
+    }
+
+    const onBookingSuccess = () => {
+        setBookingFailureErrorMessage("");
+        setLoading(false);
+        setBookingSuccess(true);
+        handleClose();
+    }
+
     const handleConfirmBookingButtonClicked = async () => {
-        if (bookingFerienwohung) {
-            setLoading(true);
-            const newBuchung: Buchung = {
-                buchnungsnummer: 0,  // Dummy value
+        setLoading(true);
+        if (bookingFerienwohung && startdatum && enddatum) {
+            const isValidBooking = await validateBookingData(bookingFerienwohung, startdatum, enddatum);
+            if (!isValidBooking) { onBookingFailure(); return }
+
+            const newBuchung: BuchungCreate = {
                 ferienwohnungs_id: bookingFerienwohung.ferienwohnungs_id,
                 email: 'luna.sommer@hotmail.com',
-                buchungsdatum: new Date().toISOString().split('T')[0],
-                startdatum: startdatum?.format('YYYY-MM-DD') || '',
-                enddatum: enddatum?.format('YYYY-MM-DD') || '',
-                sterne: 0, // Dummy value
-                bewertungsdatum: '',  // Dummy value
-                rechnungsnummer: Math.floor(Math.random() * 99999) + 1,
+                startdatum: startdatum.format('YYYY-MM-DD'),
+                enddatum: enddatum.format('YYYY-MM-DD'),
                 rechnungsbetrag: getDateDifferenceDays() * bookingFerienwohung.mietpreis,
-                rechnungsdatum: new Date().toISOString().split('T')[0],
             };
 
             try {
                 await addBuchung(newBuchung);
-                setLoading(false);
-                setBookingSuccess(true);
-                handleClose();
+                onBookingSuccess()
             } catch (error) {
-                setLoading(false);
-                setBookingFailure(true);
+                onBookingFailure();
             }
+        } else {
+            onBookingFailure();
         }
     };
 
@@ -123,11 +149,12 @@ const BookingDialog: React.FC<BookingDialogProps> = ({
                     </DialogActions>
                 </Dialog>
             }
-            <ProcessBookingDialog
+            <BookingResultDialog
                 bookingSuccess={bookingSuccess}
                 bookingFailure={bookingFailure}
+                bookingFailureErrorMessage={bookingFailureErrorMessage}
                 onSuccessClose={() => { setBookingSuccess(false); navigate(getSearchtUrl()); }}
-                onFailureClose={() => { setBookingFailure(false); }}
+                onFailureClose={() => { setBookingFailure(false); setBookingFailureErrorMessage(""); }}
             />
         </>
     );

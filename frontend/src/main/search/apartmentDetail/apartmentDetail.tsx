@@ -7,7 +7,6 @@ import { useEffect } from 'react';
 import BookingForm from './bookingForm/bookingForm';
 import { useBookingContext } from '@/context/booking/bookingContext';
 import { Ausstattung, Besitzt, Ferienwohnung } from '@/types';
-import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 
 import {
     Balcony as BalconyIcon,

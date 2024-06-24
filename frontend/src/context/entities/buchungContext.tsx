@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState, PropsWithChildren } from 'react';
 import { fetchBuchungen, addBuchung as apiAddBuchung } from '../../api/api'; // Add appropriate API methods
-import { Buchung } from '../../types';
+import { Buchung, BuchungCreate } from '../../types';
 
 interface BuchungContextType {
     buchungen: Buchung[];
     buchungenLoading: boolean;
     buchungenError: string | null;
-    addBuchung: (newBuchung: Buchung) => Promise<void>;
+    addBuchung: (newBuchung: BuchungCreate) => Promise<void>;
     refreshBuchungen: () => Promise<void>;
 }
 
@@ -37,7 +37,7 @@ export const BuchungProvider: React.FC<PropsWithChildren<{}>> = ({ children }) =
         }
     };
 
-    const addBuchung = async (newBuchung: Buchung): Promise<void> => {
+    const addBuchung = async (newBuchung: BuchungCreate): Promise<void> => {
         try {
             await apiAddBuchung(newBuchung);
             await refreshBuchungen();
