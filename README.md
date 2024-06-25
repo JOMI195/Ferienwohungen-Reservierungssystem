@@ -47,8 +47,8 @@ Make sure you have the following installed on your machine:
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/yourusername/stayfinder.git
-   cd stayfinder
+   git clone https://github.com/JOMI195/Ferienwohungen-Reservierungssystem.git
+   cd Ferienwohungen-Reservierungssystem
    ```
    
 2. Build and start the application using Docker Compose:
