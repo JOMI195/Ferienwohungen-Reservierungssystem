@@ -81,7 +81,7 @@ const BookingDialog: React.FC<BookingDialogProps> = ({
 
             const newBuchung: BuchungCreate = {
                 ferienwohnungs_id: bookingFerienwohung.ferienwohnungs_id,
-                email: 'luna.sommer@hotmail.com',
+                email: 'test.kunde@testkunde.com',
                 startdatum: startdatum.format('YYYY-MM-DD'),
                 enddatum: enddatum.format('YYYY-MM-DD'),
                 rechnungsbetrag: getDateDifferenceDays() * bookingFerienwohung.mietpreis,

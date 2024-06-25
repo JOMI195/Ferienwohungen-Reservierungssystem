@@ -7,6 +7,13 @@ const envDir = path.resolve(__dirname, '../');
 export default defineConfig({
   envDir,
   plugins: [react()],
+  server: {
+    host: true,
+    port: 3000,
+    watch: {
+      usePolling: true
+    }
+  },
   build: {},
   resolve: {
     alias: {
