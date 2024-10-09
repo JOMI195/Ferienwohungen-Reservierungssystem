@@ -1,4 +1,5 @@
-![stayfinderBanner](https://github.com/JOMI195/Ferienwohungen-Reservierungssystem/assets/57303615/fbc37881-7bec-4ba5-9950-7dfdf1860dfd)
+<img src="https://github.com/JOMI195/Ferienwohungen-Reservierungssystem/assets/57303615/fbc37881-7bec-4ba5-9950-7dfdf1860dfd" 
+alt="stayfinderBanner" width="300"/>
 
 # StayFinder
 
